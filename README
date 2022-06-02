@@ -1,1 +1,6 @@
 Laco's coffeeshop API
+
+# Install:
+```
+pip install -r requirements.txt
+```
