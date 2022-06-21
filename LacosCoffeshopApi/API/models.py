@@ -16,7 +16,7 @@ class Foods(models.Model):
     dislikes = models.IntegerField()
     fave = models.BooleanField() 
     date = models.DateField() 
-    food = models.ManyToManyField(Tags, related_name='foods')
+    tags = models.ManyToManyField(Tags, related_name='tags')
 
     def __str__(self):
         return self.name       

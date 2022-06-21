@@ -44,6 +44,7 @@ class FoodSerializer (serializers.Serializer):
         instance.dislikes = validated_data.get('dislikes', instance.dislikes)
         instance.fave = validated_data.get('fave', instance.fave)
         instance.date = validated_data.get('date', instance.date)
-        c = Tags(name=instance.name , image=instance.image , likes=instance.likes , dislikes=instance.dislikes ,fave=instance.fave ,date=instance.date ,food=instance.food)
+        instance.tags.set('tags', instance.tags)
+        # c = Tags(name=instance.name , image=instance.image , likes=instance.likes , dislikes=instance.dislikes ,fave=instance.fave ,date=instance.date ,food=instance.food)
         instance.save()
         return instance            
