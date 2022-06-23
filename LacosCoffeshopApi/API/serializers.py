@@ -4,7 +4,7 @@ from API.models import Foods, Tags
 
 
 class TagSerializer (serializers.Serializer):
-    id = serializers.IntegerField()
+    # id = serializers.IntegerField()
     tag = serializers.CharField(max_length=60)
    
     def create(self, validated_data):
