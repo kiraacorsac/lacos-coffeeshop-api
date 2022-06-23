@@ -3,20 +3,10 @@ from rest_framework import serializers
 from API.models import Foods, Tags
 
 
-
-
-    # def validate(self, data):
-
-    #     if data['hitpoints'] < 10 :
-    #         raise serializers.ValidationError("hitpoints must be at least 10")
-    #     return data        
-
 class TagSerializer (serializers.Serializer):
     id = serializers.IntegerField()
     tag = serializers.CharField(max_length=60)
    
-
-
     def create(self, validated_data):
         return Tags.objects.create(**validated_data)
 
@@ -32,26 +22,18 @@ class FoodSerializer (serializers.Serializer):
     dislikes = serializers.IntegerField()  
     fave= serializers.BooleanField() 
     date = serializers.DateField()
-    tags = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Tags.objects.all())    
-
-
+    tags = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Tags.objects.all())
 
     def create(self, validated_data):
-        # return Foods.objects.create(**validated_data)
-        newfood = Foods.objects.create(name = validated_data["name"],
-        image = validated_data["image"],
-        likes = validated_data["likes"],
-        dislikes = validated_data["dislikes"],
-        fave = validated_data["fave"],
-        date = validated_data["date"])
-        tags = TagSerializer(many=True)
-        # tag = validated_data["tags"]
-        print(validated_data["tags"])
-        # validated_data['tags'] = filter(None, validated_data['tags'])
-        if tags:
-            for k in tags:
-                    k_instance = Tags.objects.get(id=k.id)
-                    newfood.tags.set(k_instance)
+        newfood = Foods.objects.create(
+            name = validated_data["name"],
+            image = validated_data["image"],
+            likes = validated_data["likes"],
+            dislikes = validated_data["dislikes"],
+            fave = validated_data["fave"],
+            date = validated_data["date"],
+        )
+        newfood.tags.set(validated_data["tags"])
         return newfood
 
     def update(self, instance, validated_data):
@@ -62,6 +44,5 @@ class FoodSerializer (serializers.Serializer):
         instance.fave = validated_data.get('fave', instance.fave)
         instance.date = validated_data.get('date', instance.date)
         instance.tags.set('tags', instance.tags)
-        # c = Tags(name=instance.name , image=instance.image , likes=instance.likes , dislikes=instance.dislikes ,fave=instance.fave ,date=instance.date ,food=instance.food)
         instance.save()
         return instance            
