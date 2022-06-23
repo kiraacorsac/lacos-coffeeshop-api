@@ -6,7 +6,7 @@ class Tags(models.Model):
  
 
     def __str__(self):
-        return self.name   
+        return self.tag   
  
 
 class Foods(models.Model):
