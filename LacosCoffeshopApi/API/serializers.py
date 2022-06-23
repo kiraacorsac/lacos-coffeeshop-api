@@ -31,8 +31,9 @@ class FoodSerializer (serializers.Serializer):
     likes = serializers.IntegerField()  
     dislikes = serializers.IntegerField()  
     fave= serializers.BooleanField() 
-    date = serializers.DateField()    
-    tags = TagSerializer(many=True)
+    date = serializers.DateField()
+    tags = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Tags.objects.all())    
+
 
 
     def create(self, validated_data):
@@ -43,9 +44,14 @@ class FoodSerializer (serializers.Serializer):
         dislikes = validated_data["dislikes"],
         fave = validated_data["fave"],
         date = validated_data["date"])
-        # tags = validated_data["tags"])
+        tags = TagSerializer(many=True)
+        # tag = validated_data["tags"]
         print(validated_data["tags"])
-        newfood.tags.set([1,2])
+        # validated_data['tags'] = filter(None, validated_data['tags'])
+        if tags:
+            for k in tags:
+                    k_instance = Tags.objects.get(id=k.id)
+                    newfood.tags.set(k_instance)
         return newfood
 
     def update(self, instance, validated_data):
