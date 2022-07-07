@@ -2,7 +2,7 @@ from pkgutil import ImpImporter
 from rest_framework import serializers
 from API.models import Foods, Tags
 
-
+import turtle
 class TagSerializer (serializers.Serializer):
     # id = serializers.IntegerField()
     tag = serializers.CharField(max_length=60)
@@ -11,7 +11,7 @@ class TagSerializer (serializers.Serializer):
         return Tags.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.tag = validated_data.get('tag', instance.tag)
+        instance.tag = validated_data.filter('tag', instance.tag)
         instance.save()
         return instance        
 
