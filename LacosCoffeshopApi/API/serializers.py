@@ -1,8 +1,6 @@
-from pkgutil import ImpImporter
 from rest_framework import serializers
 from API.models import Foods, Tags
 
-import turtle
 class TagSerializer (serializers.Serializer):
     # id = serializers.IntegerField()
     tag = serializers.CharField(max_length=60)
