@@ -2,7 +2,7 @@ from rest_framework import serializers
 from API.models import Foods, Tags
 
 class TagSerializer (serializers.Serializer):
-    # id = serializers.IntegerField()
+    id = serializers.IntegerField(read_only = True)
     tag = serializers.CharField(max_length=60)
    
     def create(self, validated_data):
@@ -14,6 +14,7 @@ class TagSerializer (serializers.Serializer):
         return instance        
 
 class FoodSerializer (serializers.Serializer):
+    id = serializers.IntegerField(read_only = True)
     name = serializers.CharField(max_length=60)
     image = serializers.CharField()
     likes = serializers.IntegerField()  
