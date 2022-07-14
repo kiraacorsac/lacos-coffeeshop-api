@@ -1,7 +1,5 @@
-from pkgutil import ImpImporter
 from rest_framework import serializers
 from API.models import Foods, Tags
-
 
 class TagSerializer (serializers.Serializer):
     # id = serializers.IntegerField()
@@ -11,7 +9,7 @@ class TagSerializer (serializers.Serializer):
         return Tags.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.tag = validated_data.get('tag', instance.tag)
+        instance.tag = validated_data.filter('tag', instance.tag)
         instance.save()
         return instance        
 
@@ -43,6 +41,17 @@ class FoodSerializer (serializers.Serializer):
         instance.dislikes = validated_data.get('dislikes', instance.dislikes)
         instance.fave = validated_data.get('fave', instance.fave)
         instance.date = validated_data.get('date', instance.date)
-        instance.tags.set('tags', instance.tags)
+        instance.tags.set(validated_data["tags"])
         instance.save()
         return instance            
+
+    # def delete(self, instance, validated_data):
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.image = validated_data.get('image', instance.image)
+    #     instance.likes = validated_data.get('likes', instance.likes)
+    #     instance.dislikes = validated_data.get('dislikes', instance.dislikes)
+    #     instance.fave = validated_data.get('fave', instance.fave)
+    #     instance.date = validated_data.get('date', instance.date)
+    #     instance.tags.set(validated_data["tags"])
+    #     instance.delete()
+    #     return instance            
