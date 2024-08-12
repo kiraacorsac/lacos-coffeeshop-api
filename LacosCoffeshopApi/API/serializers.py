@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from API.models import Foods, Tags
+from django.contrib.auth.models import User
 
 class TagSerializer (serializers.Serializer):
     id = serializers.IntegerField(read_only = True)
@@ -56,3 +57,23 @@ class FoodSerializer (serializers.Serializer):
     #     instance.tags.set(validated_data["tags"])
     #     instance.delete()
     #     return instance            
+class UserSerializer (serializers.ModelSerializer): 
+    class Meta: 
+        model = User 
+        fields = ['id', 'username', 'password', 'is_active']  
+
+
+    def create(self, validated_data):
+        newuser = User.objects.create(
+            username= validated_data["username"],
+            password= validated_data["password"],   
+            is_active= True,   
+        )
+        return newuser
+    
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.password = validated_data.get('password', instance.password)
+        instance.is_active = validated_data.get('is_active', instance.is_active)
+        instance.save()
+        return instance      
